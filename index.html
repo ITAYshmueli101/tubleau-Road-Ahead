@@ -89,6 +89,12 @@
             text-align: center;
         }
 
+        .tableau-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
         /* Animations */
         @keyframes slideIn {
             from { transform: translateY(-50px); opacity: 0; }
@@ -139,12 +145,8 @@
             <section class="section" id="dashboard">
                 <h2>Your Catan Dashboard 🎲📊</h2>
                 <div class="tableau-container">
-                    <iframe 
-                        src="https://public.tableau.com/views/Book1_17425557974610/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" 
-                        width="100%" 
-                        height="600px" 
-                        frameborder="0">
-                    </iframe>
+                    <!-- Updated Tableau Embed Code -->
+                    <div id="vizContainer"></div>
                     <p>🔍 Settle in and explore your Catan victories! Trade, build, win! 🏰</p>
                 </div>
             </section>
@@ -176,16 +178,37 @@
         </footer>
     </div>
 
+    <script src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
     <script>
-        // Simple interactivity for fun
-        document.addEventListener('DOMContentLoaded', () => {
-            const dice = document.querySelector('.roll-dice');
-            dice.addEventListener('click', () => {
-                alert('You rolled a ' + (Math.floor(Math.random() * 6) + 1) + '! 🎲');
-            });
+        // Initialize Tableau Viz
+        function initViz() {
+            const containerDiv = document.getElementById("vizContainer");
+            const vizUrl = "https://public.tableau.com/views/Book1_17425557974610/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link";
+            const options = {
+                width: "100%",
+                height: "600px",
+                hideTabs: false,
+                hideToolbar: false,
+                onFirstInteractive: function () {
+                    console.log("Tableau dashboard is interactive! 📊");
+                }
+            };
 
-            console.log('Catan Analytics Loaded! Ready to settle? 🏡');
+            // Create a new Tableau Viz
+            const viz = new tableau.Viz(containerDiv, vizUrl, options);
+        }
+
+        // Load the viz when the page is ready
+        document.addEventListener('DOMContentLoaded', initViz);
+
+        // Dice roll interactivity
+        const dice = document.querySelector('.roll-dice');
+        dice.addEventListener('click', () => {
+            const roll = Math.floor(Math.random() * 6) + 1;
+            alert(`You rolled a ${roll}! 🎲`);
         });
+
+        console.log('Catan Analytics Loaded! Ready to settle? 🏡');
     </script>
 </body>
 </html>
