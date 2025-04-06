@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catan Analytics Hub 🎲📊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Base Styles with Catan Theme */
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #ff6f61, #ffb347);
             min-height: 100vh;
             color: #fff;
+            overflow-x: hidden;
         }
 
         .container {
@@ -24,24 +26,55 @@
         /* Header with Catan Flair */
         header {
             background: linear-gradient(to right, #d9534f, #f0ad4e);
-            padding: 2rem;
-            border-radius: 10px;
+            padding: 3rem 2rem;
+            border-radius: 15px;
             text-align: center;
             animation: slideIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '🎲';
+            position: absolute;
+            font-size: 5em;
+            top: -20px;
+            left: -20px;
+            opacity: 0.2;
+            animation: roll 2s infinite;
         }
 
         h1 {
             margin: 0;
-            font-size: 2.8em;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #28a745;
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: #218838;
         }
 
         /* Navigation */
         nav {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         nav ul {
@@ -55,8 +88,10 @@
         nav a {
             color: #fff;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 1.1em;
             transition: transform 0.3s, color 0.3s;
+            position: relative;
         }
 
         nav a:hover {
@@ -64,20 +99,50 @@
             color: #ffe484;
         }
 
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #ffe484;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
         /* Sections */
         .section {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 2rem;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 15px;
             margin: 20px 0;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             animation: fadeIn 1.5s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '🌾🪵🧱';
+            position: absolute;
+            font-size: 3em;
+            bottom: -10px;
+            right: -10px;
+            opacity: 0.15;
         }
 
         h2 {
             color: #fff;
-            border-bottom: 2px solid #ffe484;
+            border-bottom: 3px solid #ffe484;
             padding-bottom: 10px;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Tableau Container */
@@ -87,12 +152,38 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             text-align: center;
+            margin: 1rem 0;
         }
 
-        .tableau-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
+        .tableau-container p {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        /* Fun Facts Section */
+        .fun-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .fact-card {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fact-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.3em;
         }
 
         /* Animations */
@@ -108,6 +199,9 @@
 
         .roll-dice {
             animation: roll 1.5s infinite;
+            cursor: pointer;
+            font-size: 2.5em;
+            display: inline-block;
         }
 
         @keyframes roll {
@@ -119,9 +213,18 @@
         /* Footer */
         footer {
             text-align: center;
-            padding: 1rem;
-            margin-top: 20px;
-            font-size: 0.9em;
+            padding: 1.5rem;
+            margin-top: 30px;
+            font-size: 1em;
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            nav ul { flex-direction: column; gap: 1rem; }
+            .cta-button { padding: 0.6rem 1.5rem; }
         }
     </style>
 </head>
@@ -129,7 +232,8 @@
     <div class="container">
         <header>
             <h1>Catan Analytics Hub 🎲✨</h1>
-            <p>Roll the dice and explore the world of Catan stats! 🌾🪵🧱</p>
+            <p>Uncover Epic Stats & Dominate Your Next Game! 🌾🪵🧱</p>
+            <a href="#dashboard" class="cta-button">Dive Into the Stats Now! 🚀</a>
         </header>
 
         <nav>
@@ -137,6 +241,7 @@
                 <li><a href="#dashboard">Game Dashboard 🎯</a></li>
                 <li><a href="#stats">Player Stats 📈</a></li>
                 <li><a href="#trends">Catan Trends 🔥</a></li>
+                <li><a href="#facts">Fun Facts 🧠</a></li>
                 <li><a href="#about">About the Settlers 👪</a></li>
             </ul>
         </nav>
@@ -145,31 +250,51 @@
             <section class="section" id="dashboard">
                 <h2>Your Catan Dashboard 🎲📊</h2>
                 <div class="tableau-container">
-                    <!-- Updated Tableau Embed Code -->
                     <div id="vizContainer"></div>
-                    <p>🔍 Settle in and explore your Catan victories! Trade, build, win! 🏰</p>
+                    <p>🔍 Build, trade, and conquer with data-driven strategies! 🏰</p>
+                    <a href="#stats" class="cta-button">See Your Player Stats! 📈</a>
                 </div>
             </section>
 
             <section class="section" id="stats">
                 <h2>Player Stats 🌟</h2>
                 <ul>
-                    <li>🎯 Most Roads Built: 12 in one game!</li>
-                    <li>🏆 Victory Points Leader: 10+ wins</li>
-                    <li>🃏 Largest Army: Claimed 5 times</li>
+                    <li>🎯 Most Roads Built: 12 in one game! 🛤️</li>
+                    <li>🏆 Victory Points Leader: 10+ wins 🏅</li>
+                    <li>🃏 Largest Army: Claimed 5 times ⚔️</li>
                 </ul>
+                <p>Think you’re the ultimate settler? Prove it in your next game! 💪</p>
             </section>
 
             <section class="section" id="trends">
                 <h2>Catan Trends 📈</h2>
-                <p>Watch the dice roll! 🎲</p>
-                <div class="roll-dice" style="font-size: 2em;">🎲</div>
-                <p>Sheep trades are up 30% this season! 🐑</p>
+                <p>Roll for the latest insights! 🎲</p>
+                <div class="roll-dice">🎲</div>
+                <p>Sheep trades are up 30% this season! 🐑 Don’t miss out—stock up now! 🌾</p>
+            </section>
+
+            <section class="section" id="facts">
+                <h2>Fun Catan Facts 🧠</h2>
+                <div class="fun-facts">
+                    <div class="fact-card">
+                        <h3>Longest Game Ever? ⏳</h3>
+                        <p>A group in Germany played for 68 hours straight in 2015! Could you survive that? 😅</p>
+                    </div>
+                    <div class="fact-card">
+                        <h3>Most Popular Resource? 🐑</h3>
+                        <p>Sheep are traded 40% more than any other resource—everyone wants wool! 🧶</p>
+                    </div>
+                    <div class="fact-card">
+                        <h3>Rarest Roll? 🎲</h2>
+                        <p>Rolling a 2 or 12 only happens 2.78% of the time. Better not bet on it! ⚖️</p>
+                    </div>
+                </div>
             </section>
 
             <section class="section" id="about">
                 <h2>About the Settlers 👋</h2>
-                <p>We’re Catan enthusiasts bringing you fun analytics! Build your empire with us! 🌍✨</p>
+                <p>We’re Catan enthusiasts bringing you fun analytics to level up your game! Build your empire with us! 🌍✨</p>
+                <a href="#dashboard" class="cta-button">Explore More Stats! 📊</a>
             </section>
         </main>
 
@@ -193,19 +318,16 @@
                     console.log("Tableau dashboard is interactive! 📊");
                 }
             };
-
-            // Create a new Tableau Viz
             const viz = new tableau.Viz(containerDiv, vizUrl, options);
         }
 
-        // Load the viz when the page is ready
         document.addEventListener('DOMContentLoaded', initViz);
 
         // Dice roll interactivity
         const dice = document.querySelector('.roll-dice');
         dice.addEventListener('click', () => {
             const roll = Math.floor(Math.random() * 6) + 1;
-            alert(`You rolled a ${roll}! 🎲`);
+            alert(`You rolled a ${roll}! 🎲 Will it bring you luck? 🍀`);
         });
 
         console.log('Catan Analytics Loaded! Ready to settle? 🏡');
